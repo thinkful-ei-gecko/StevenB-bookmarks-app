@@ -5,8 +5,8 @@ const api = (function() {
   const BASE_URL = 'https://thinkful-list-api.herokuapp.com/StevenB/bookmarks';
 
   //setup error handling wrapper function
-  const errorHandlingAPIFetch = function(...args) {
-    let error,
+  const handleAPIFetch = function(...args) {
+    let error;
     return fetch(...args)
       .then(response => {
         if(response.ok) {
@@ -16,6 +16,26 @@ const api = (function() {
       })
       .then(data => console.log(data))
       .catch(error);
+  };
+
+  const getBoomarks = function() {
+    return handleAPIFetch(BASE_URL);
+  };
+
+  const createBookmark = function(name) {
+    
+  };
+
+  const deleteBookmark = function(id) {
+    return handleAPIFetch(BASE_URL + '/' + id, {
+      method: 'DELETE'
+    });
+  };
+
+  return {
+    getBoomarks,
+    createBookmark,
+    deleteBookmark
   };
 
 }());
