@@ -7,6 +7,7 @@ function addBookmarkClicked() {
     console.log('addBookmark clicked!');
     $('#bookmark-form-section').html(`
       <form action='submit' id="js-bookmark-form">
+        <h2>Please enter in a new bookmark!</h2>
         <div>
           <label for="text-name">Name:</label>
           <input type="text" name="text-name" class="js-website-name">
@@ -15,7 +16,7 @@ function addBookmarkClicked() {
           <label for="text-description">Description:</label>
           <input type="text" name="text-description" class="js-website-description">
           <label for="text-rating">Rating:</label>
-          <input type="text" name="text-rating" class="js-website-rating">
+          <input type="number" name="text-rating" class="js-website-rating" min='1' max='5'>
           <button type='submit' value='Submit' id='submit-bookmark-form-data'>Submit</button>
         </div>
       </form>
@@ -46,6 +47,17 @@ function watchAddBookmarkForm() {
     revertToInitialLoad();
   });
 }
+
+//will create how the bookmark will appear on the DOM
+function generateBookmarkElement(bookmark) {
+  return `
+    <li>
+      <span>
+    </li>`;
+}
+
+//will add the new bookmark element on the DOM
+function generateBookmarkOnPage() {}
 
 //will filter bookmarks currently in DOM
 //filter based on 1-5 rating system
