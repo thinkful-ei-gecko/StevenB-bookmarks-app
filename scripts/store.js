@@ -7,6 +7,10 @@ const store = (function() {
     this.list.push(bookmark);
   };
 
+  const createId = function(bookmark) {
+    bookmark['id'] = cuid();
+  };
+
   const findById = function(id) {
     return this.list.find(bookmark => bookmark.id === id);
   };
@@ -20,6 +24,7 @@ const store = (function() {
     adding: false,
 
     addBookmark,
+    createId,
     findById,
     findAndDelete
   };

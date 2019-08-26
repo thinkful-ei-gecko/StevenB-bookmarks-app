@@ -3,9 +3,8 @@
 
 $(document).ready(function() {
   bookmarkList.bindEventListeners();
-
   // On initial load, fetch bookmarks and render
-  api.getBookmarks()
+  api.getBoomarks()
     .then((bookmark) => {
       bookmark.forEach((item) => store.addBookmark(item));
       bookmarkList.generateBookmarkOnPage();

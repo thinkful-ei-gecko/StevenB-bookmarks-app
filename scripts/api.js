@@ -14,16 +14,24 @@ const api = (function() {
         }
         error = response.statusText;
       })
-      .then(data => console.log(data))
+      .then(data => {
+        console.log(data);
+        return data;
+      })
       .catch(error);
   };
 
   const getBoomarks = function() {
-    return handleAPIFetch(BASE_URL);
+    return handleAPIFetch(`${BASE_URL}`);
   };
 
-  const createBookmark = function(name) {
-    
+  const createBookmark = function(bookmarkOject) {
+    console.log(bookmarkOject);
+    return handleAPIFetch(BASE_URL, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: bookmarkOject
+    });
   };
 
   const deleteBookmark = function(id) {

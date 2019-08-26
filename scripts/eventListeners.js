@@ -13,13 +13,13 @@ const bookmarkList = ( function() {
         <h2>Please enter in a new bookmark!</h2>
         <div>
           <label for="text-name">Name:</label>
-          <input type="text" name="text-name" class="js-website-name">
+          <input type="text" name="title" id="text-name">
           <label for="text-url">URL:</label>
-          <input type="url" value='https://' name="text-url" class="js-website-url">
+          <input type="url" value='https://' name="url" id="text-url">
           <label for="text-description">Description:</label>
-          <input type="text" name="text-description" class="js-website-description">
+          <input type="text" name="description" id="text-description">
           <label for="text-rating">Rating:</label>
-          <input type="number" name="text-rating" class="js-website-rating" min='1' max='5'>
+          <input type="number" name="rating" id="text-rating" min='1' max='5'>
           <button type='submit' value='Submit' id='submit-bookmark-form-data'>Submit</button>
         </div>
       </form>
@@ -37,26 +37,57 @@ const bookmarkList = ( function() {
   `);
   }
 
+  //extracts data from the form 
+  //uses store createId function to add an id
+  function serializeJson(form) {
+    const formData = new FormData(form);
+    const o = {};
+    formData.forEach((val, name) => o[name] = val);
+    store.createId(o);
+    return JSON.stringify(o);
+  }
+
   //will watch the add bookmark form
   function watchAddBookmarkForm() {
     $('#bookmark-form-section').on('submit', '#js-bookmark-form', function(event) {
       event.preventDefault();
       console.log('I\'m running!');
-      const websiteName = $('.js-website-name').val();
-      const websiteURL = $('.js-website-url').val();
-      const websiteDescription = $('.js-website-description').val();
-      const websiteRating = $('.js-website-rating').val();
-      console.log(`You entered the name: ${websiteName} for: ${websiteURL} with a description of: ${websiteDescription} and a rating of: ${websiteRating}!`);
-      revertToInitialLoad();
+      let formElement = $('#js-bookmark-form')[0];
+      serializeJson(formElement);
+      api.createBookmark(formElement)
+        .then(newBookmark => {
+          store.addBookmark(newBookmark);
+          generateBookmarkOnPage();
+          revertToInitialLoad();
+        });
     });
   }
 
   //will create how the bookmark will appear on the DOM
   function generateBookmarkElement(bookmark) {
     return `
-    <li>
-      <span>
-    </li>`;
+      <li class='js-bookmark-element'>
+        <div>
+          <span class='bookmarkTitle'>${bookmark.name} |</span>
+          <span class='bookmarkRating'>Rating: ${bookmark.rating}</span>
+        </div>
+        <div>
+          <span class='bookmarkDescription'>Description: ${bookmark.description}</span>
+          <input type='button' onclick="window.open('${bookmark.url}','_blank','resizable=yes'>
+        </div>
+      </li>`;
+  }
+
+  function generateBookmarksString(bookmarks) {
+    const newBookmarks = bookmarks.map((list) => generateBookmarkElement(list));
+    return newBookmarks.join('');
+  }
+
+  //will add the new bookmark element on the DOM
+  function generateBookmarkOnPage() {
+    let bookmarks = [...store.list];
+    const bookmarkListString = generateBookmarksString(bookmarks);
+    $('.js-bookmark-list').html(bookmarkListString);
   }
 
   //will filter bookmarks currently in DOM
@@ -68,9 +99,6 @@ const bookmarkList = ( function() {
 
   //will handle if expanded view is clicked on bookmark
   function handleExpandedView() {}
-  
-  //will add the new bookmark element on the DOM
-  function generateBookmarkOnPage() {}
 
   //will render the added information onto the DOM
   function bindEventListeners() {
