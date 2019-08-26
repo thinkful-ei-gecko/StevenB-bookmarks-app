@@ -8,22 +8,11 @@
   <link rel="stylesheet" href="index.css">
 </head>
 <body>
-
-  <main>
-    <h1>Save Your Favorite Websites!</h1>
-    <form action="submit" id="js-bookmark-form">
-      <fieldset>
-        <div>
-          <label for="text-name">Name:</label>
-          <input type="text" name="text-name" class="js-website-name">
-          <label for="text-url">URL:</label>
-          <input type="text" name="text-url" class="js-website-url">
-        </div>
-        <div>
-          <input type="submit" value="Add Bookmark!" class='form-submit-button'>
-        </div>
-      </fieldset>
-    </form>
+  <h1>Save Your Favorite Websites!</h1>
+  <main id='bookmark-form-section'>
+    <button type="submit" value="Add Bookmark!" class='addBookmark-button'>Add Bookmark!</button>
+    <label for="filterByRating">Filter By Rating:</label>
+    <input type="number" name="filterByRating" class="js-filter-rating" min='1' max='5' step='1'>
   </main>
 
   <section>
@@ -32,6 +21,8 @@
   </section>
 
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="scripts/api.js"></script>
+<script src="scripts/store.js"></script>
 <script src="scripts/index.js"></script>
 </body>
 </html>
