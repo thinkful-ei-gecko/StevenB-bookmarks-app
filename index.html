@@ -12,8 +12,14 @@
   <h1>Save Your Favorite Websites!</h1>
   <main id='bookmark-form-section'>
     <button type="submit" value="Add Bookmark!" class='addBookmark-button'>Add Bookmark!</button>
-    <label for="filterByRating">Filter By Rating:</label>
-    <input type="number" name="filterByRating" class="js-filter-rating" min='1' max='5' step='1'>
+    <select type="dropdown" name="filterByRating" class="js-filter-rating">
+      <option selected='' value='1'>Filter By Minimum Rating</option>
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+    </select>
   </main>
 
   <section>

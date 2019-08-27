@@ -31,8 +31,14 @@ const bookmarkList = ( function() {
   function revertToInitialLoad() {
     $('#bookmark-form-section').html(`
     <button type="submit" value="Add Bookmark!" class='addBookmark-button'>Add Bookmark!</button>
-    <label for="filterByRating">Filter By Rating:</label>
-    <input type="number" name="filterByRating" class="js-filter-rating" min='1' max='5' step='1'>
+    <select type="dropdown" name="filterByRating" class="js-filter-rating">
+      <option selected=''>Filter By Minimum Rating</option>
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+    </select>
   `);
   }
 
@@ -75,12 +81,12 @@ const bookmarkList = ( function() {
     if(bookmark.expandedView === true) {
       return `
         <li class='js-bookmark-element' data-bookmark-id='${bookmark.id}'>
-          <div>
+          <div class='unexpanded-div'>
             <span class='bookmarkTitle'>${bookmark.title} |</span>
             <span class='bookmarkRating'>Rating: ${bookmark.rating}</span>
             <button type='button' id='expandView'>Expand</button>
           </div>
-          <div>
+          <div class='expanded-div'>
             <span class='bookmarkDescription'>Description: ${bookmark.desc}</span>
             <input type='button' onclick="window.open('${bookmark.url}'),'_blank','resizable=yes'" value='Visit Site'>
             <button type='button' id='deleteBookmark'>Delete</button>
@@ -89,7 +95,7 @@ const bookmarkList = ( function() {
     } else {
       return `
       <li class='js-bookmark-element' data-bookmark-id='${bookmark.id}'>
-          <div>
+          <div class='unexpanded-div'>
             <span class='bookmarkTitle'>${bookmark.title} |</span>
             <span class='bookmarkRating'>Rating: ${bookmark.rating}</span>
             <button type='button' id='expandView'>Expand</button>
@@ -112,10 +118,6 @@ const bookmarkList = ( function() {
       store.createExpandedView(bookmarks);
     }
 
-    if(store.list.expandedView === true) {
-      store.toggleExpandedView(bookmarks);
-    }
-
     if(store.searchNumber) {
       bookmarks = bookmarks.filter(bookmark => bookmark.rating >= store.searchNumber);
     }
@@ -127,7 +129,7 @@ const bookmarkList = ( function() {
   //will filter bookmarks currently in DOM
   //filter based on 1-5 rating system
   function filterBookmarksWasClicked() {
-    $('#bookmark-form-section').on('keyup', '.js-filter-rating', function(event) {
+    $('#bookmark-form-section').on('mouseup', '.js-filter-rating', function(event) {
       let val = $(event.currentTarget).val();
       store.searchNumber = val;
       renderPage();
