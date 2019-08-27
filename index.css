@@ -1,14 +1,61 @@
 * {
   box-sizing: border-box;
+  color: white;
+  font-family: 'Lobster', cursive;
+}
+
+html {
+  background-color: black;
+  height: 100%;
+  width: 100%;
 }
 
 h1 {
   text-align: center;
+  background-color: #0000ff;
+  height: 20%;
+  padding: 5%;
+  margin: 0px;
+  margin-bottom: 5%;
+  font-size: 24px;
 }
 
 main {
   text-align: center;
   font-size: 14px;
+}
+
+button {
+  background-color:#0000ff;
+	-moz-border-radius:28px;
+	-webkit-border-radius:28px;
+	border-radius:28px;
+	border:1px solid #080808;
+	cursor:pointer;
+	color:#ffffff;
+	font-size:12px;
+	padding:8px 15px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #1b1c1b;
+}
+
+button:hover {
+  background-color:#f50e0e;
+}
+
+button:active {
+  position:relative;
+	top:1px;
+}
+
+.addBookmark-button {
+  display: block;
+  margin: auto;
+  margin-bottom: 18px;
+}
+
+select {
+  background-color: #080808
 }
 
 h2 {
@@ -23,4 +70,51 @@ li {
   list-style: none;
   border: 1px solid black;
   text-align: center;
+  height: 20%;
+}
+
+.unexpanded-div {
+  height: 40px;
+  border: 3px white solid;
+  margin: 0px 10% 15px 10%;
+}
+
+.expanded-div {
+  height: 100px;
+  border: 1px white solid;
+  margin: -15px 10% 15px 10%;
+}
+
+#expandView {
+	border-radius:28px;
+	border:1px solid #080808;
+	font-size:8px;
+	padding: 0px 5px;
+	text-decoration:none;
+  text-shadow:0px 1px 0px #1b1c1b;
+  display: block;
+  float: right;
+  margin-top: 22px;
+}
+
+.bookmarkDescription {
+  font-size: 12px;
+  display: block;
+  height: 55px;
+}
+
+.visitSite {
+  float: left;
+  margin-left: 15%;
+}
+
+#deleteBookmark {
+  border-radius:28px;
+	border:1px solid #080808;
+	font-size:8px;
+	padding: 0px 5px;
+	text-decoration:none;
+  text-shadow:0px 1px 0px #1b1c1b;
+  float: right;
+  margin-top: 30px;
 }

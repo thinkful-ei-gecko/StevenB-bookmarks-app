@@ -11,13 +11,13 @@ const bookmarkList = ( function() {
       <form action='submit' id="js-bookmark-form">
         <h2>Please enter in a new bookmark!</h2>
         <div>
-          <label for="text-name">Name:</label>
+          <label for="name">Name:</label>
           <input type="text" name="title" id="text-name">
-          <label for="text-url">URL:</label>
+          <label for="url">URL:</label>
           <input type="url" value='https://' name="url" id="text-url">
-          <label for="text-description">Description:</label>
+          <label for="desc">Description:</label>
           <input type="text" name="desc" id="text-description">
-          <label for="text-rating">Rating:</label>
+          <label for="rating">Rating:</label>
           <input type="number" name="rating" id="text-rating" min='1' max='5' required>
           <button type='submit' value='Submit' id='submit-bookmark-form-data'>Submit</button>
           <button type='submit' value='Cancel' id='cancel-bookmark-form-data'>Cancel</button>
@@ -32,7 +32,7 @@ const bookmarkList = ( function() {
     $('#bookmark-form-section').html(`
     <button type="submit" value="Add Bookmark!" class='addBookmark-button'>Add Bookmark!</button>
     <select type="dropdown" name="filterByRating" class="js-filter-rating">
-      <option selected=''>Filter By Minimum Rating</option>
+      <option selected=''>Filter By:</option>
       <option value="1">1</option>
       <option value="2">2</option>
       <option value="3">3</option>
@@ -88,8 +88,10 @@ const bookmarkList = ( function() {
           </div>
           <div class='expanded-div'>
             <span class='bookmarkDescription'>Description: ${bookmark.desc}</span>
-            <input type='button' onclick="window.open('${bookmark.url}'),'_blank','resizable=yes'" value='Visit Site'>
-            <button type='button' id='deleteBookmark'>Delete</button>
+            <div class='expanded-buttons'>
+              <button type='button' class='visitSite' onclick="window.open('${bookmark.url}'),'_blank','resizable=yes'">Visit Site</button>
+              <button type='button' id='deleteBookmark'>Delete</button>
+            </div>
           </div>
         </li>`;
     } else {
