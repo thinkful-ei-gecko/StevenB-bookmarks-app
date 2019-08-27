@@ -1,5 +1,5 @@
 'use strict';
-
+// eslint-disable-next-line no-unused-vars
 const api = (function() {
 
   const BASE_URL = 'https://thinkful-list-api.herokuapp.com/StevenB/bookmarks';
@@ -15,7 +15,6 @@ const api = (function() {
         error = response.statusText;
       })
       .then(data => {
-        console.log(data);
         return data;
       })
       .catch(error);
@@ -26,7 +25,6 @@ const api = (function() {
   };
 
   const createBookmark = function(bookmarkOject) {
-    console.log(bookmarkOject);
     return handleAPIFetch(BASE_URL, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},

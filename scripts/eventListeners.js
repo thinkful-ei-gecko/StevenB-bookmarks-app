@@ -1,13 +1,12 @@
 'use strict';
 // eslint-disable-next-line no-unused-vars
 /* global bookmarkList, store, api */
-
+// eslint-disable-next-line no-unused-vars
 const bookmarkList = ( function() {
 //will generate form to add a new bookmark to the DOM
   function addBookmarkClicked() {
     $('#bookmark-form-section').on('click', '.addBookmark-button', function(event) {
       event.preventDefault();
-      console.log('addBookmark clicked!');
       $('#bookmark-form-section').html(`
       <form action='submit' id="js-bookmark-form">
         <h2>Please enter in a new bookmark!</h2>
@@ -19,8 +18,9 @@ const bookmarkList = ( function() {
           <label for="text-description">Description:</label>
           <input type="text" name="desc" id="text-description">
           <label for="text-rating">Rating:</label>
-          <input type="number" name="rating" id="text-rating" min='1' max='5'>
+          <input type="number" name="rating" id="text-rating" min='1' max='5' required>
           <button type='submit' value='Submit' id='submit-bookmark-form-data'>Submit</button>
+          <button type='submit' value='Cancel' id='cancel-bookmark-form-data'>Cancel</button>
         </div>
       </form>
     `);
@@ -29,12 +29,19 @@ const bookmarkList = ( function() {
 
   //will revert to initial load page 
   function revertToInitialLoad() {
-    console.log('Reverting to Initial Load!');
     $('#bookmark-form-section').html(`
     <button type="submit" value="Add Bookmark!" class='addBookmark-button'>Add Bookmark!</button>
     <label for="filterByRating">Filter By Rating:</label>
     <input type="number" name="filterByRating" class="js-filter-rating" min='1' max='5' step='1'>
   `);
+  }
+
+  function watchCancelBookmarkAdd() {
+    $('#bookmark-form-section').on('click', '#cancel-bookmark-form-data', function(event) {
+      event.preventDefault();
+      revertToInitialLoad();
+      renderPage();
+    });
   }
 
   //extracts data from the form 
@@ -44,6 +51,7 @@ const bookmarkList = ( function() {
     const o = {};
     formData.forEach((val, name) => o[name] = val);
     store.createId(o);
+    store.createExpandedView(o);
     return JSON.stringify(o);
   }
 
@@ -51,33 +59,44 @@ const bookmarkList = ( function() {
   function watchAddBookmarkForm() {
     $('#bookmark-form-section').on('submit', '#js-bookmark-form', function(event) {
       event.preventDefault();
-      console.log('I\'m running!');
       let formElement = $('#js-bookmark-form')[0];
       const jsonObject = serializeJson(formElement);
-      console.log(jsonObject);
       api.createBookmark(jsonObject)
         .then(newBookmark => {
           store.addBookmark(newBookmark);
-          generateBookmarkOnPage();
           revertToInitialLoad();
+          renderPage();
         });
     });
   }
 
   //will create how the bookmark will appear on the DOM
   function generateBookmarkElement(bookmark) {
-    return `
+    if(bookmark.expandedView === true) {
+      return `
+        <li class='js-bookmark-element' data-bookmark-id='${bookmark.id}'>
+          <div>
+            <span class='bookmarkTitle'>${bookmark.title} |</span>
+            <span class='bookmarkRating'>Rating: ${bookmark.rating}</span>
+            <button type='button' id='expandView'>Expand</button>
+          </div>
+          <div>
+            <span class='bookmarkDescription'>Description: ${bookmark.desc}</span>
+            <input type='button' onclick="window.open('${bookmark.url}'),'_blank','resizable=yes'" value='Visit Site'>
+            <button type='button' id='deleteBookmark'>Delete</button>
+          </div>
+        </li>`;
+    } else {
+      return `
       <li class='js-bookmark-element' data-bookmark-id='${bookmark.id}'>
-        <div>
-          <span class='bookmarkTitle'>${bookmark.title} |</span>
-          <span class='bookmarkRating'>Rating: ${bookmark.rating}</span>
-        </div>
-        <div>
-          <span class='bookmarkDescription'>Description: ${bookmark.desc}</span>
-          <input type='button' onclick="window.open('${bookmark.url}'),'_blank','resizable=yes'" value='Visit Site'>
-          <button type='button' id='deleteBookmark'>Delete</button>
-        </div>
-      </li>`;
+          <div>
+            <span class='bookmarkTitle'>${bookmark.title} |</span>
+            <span class='bookmarkRating'>Rating: ${bookmark.rating}</span>
+            <button type='button' id='expandView'>Expand</button>
+          </div>
+      </li>
+      `;
+    }
   }
 
   function generateBookmarksString(bookmarks) {
@@ -86,15 +105,34 @@ const bookmarkList = ( function() {
   }
 
   //will add the new bookmark element on the DOM
-  function generateBookmarkOnPage() {
+  function renderPage() {
     let bookmarks = [...store.list];
+
+    if(store.list.expandedView === undefined) {
+      store.createExpandedView(bookmarks);
+    }
+
+    if(store.list.expandedView === true) {
+      store.toggleExpandedView(bookmarks);
+    }
+
+    if(store.searchNumber) {
+      bookmarks = bookmarks.filter(bookmark => bookmark.rating >= store.searchNumber);
+    }
+
     const bookmarkListString = generateBookmarksString(bookmarks);
     $('.js-bookmark-list').html(bookmarkListString);
   }
 
   //will filter bookmarks currently in DOM
   //filter based on 1-5 rating system
-  function filterBookmarksWasClicked() {}
+  function filterBookmarksWasClicked() {
+    $('#bookmark-form-section').on('keyup', '.js-filter-rating', function(event) {
+      let val = $(event.currentTarget).val();
+      store.searchNumber = val;
+      renderPage();
+    });
+  }
 
   function getBookmarkId(bookmark) {
     return $(bookmark)
@@ -106,31 +144,39 @@ const bookmarkList = ( function() {
   function handleBookmarkDelete() {
     $('.js-bookmark-list').on('click', '#deleteBookmark', function(event) {
       event.preventDefault();
-      console.log('delete button works!');
       const id = getBookmarkId(event.currentTarget);
-      console.log(id);
       api.deleteBookmark(id)
         .then(() => {
           store.findAndDelete(id);
-          generateBookmarkOnPage();
+          renderPage();
         });
     });
   }
 
   //will handle if expanded view is clicked on bookmark
-  function handleExpandedView() {}
+  function handleExpandedView() {
+    $('.js-bookmark-list').on('click', '#expandView', function(event) {
+      event.preventDefault();
+      const id = getBookmarkId(event.currentTarget);
+      const storeObject = store.findById(id);
+      store.toggleExpandedView(storeObject);
+      renderPage();
+    });
+  }
 
   //will render the added information onto the DOM
   function bindEventListeners() {
-    console.log('renderPage ran');
     addBookmarkClicked();
+    watchCancelBookmarkAdd();
     watchAddBookmarkForm();
     handleBookmarkDelete();
+    handleExpandedView();
+    filterBookmarksWasClicked();
   }
 
   return {
     bindEventListeners,
-    generateBookmarkOnPage,
+    renderPage,
   };
 
 }());

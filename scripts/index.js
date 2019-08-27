@@ -7,7 +7,7 @@ $(document).ready(function() {
   api.getBoomarks()
     .then((bookmark) => {
       bookmark.forEach((item) => store.addBookmark(item));
-      bookmarkList.generateBookmarkOnPage();
+      bookmarkList.renderPage();
     })
-    .catch(err => console.log(err.message));
+    .catch(err => alert(err.message));
 });
