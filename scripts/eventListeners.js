@@ -17,7 +17,7 @@ const bookmarkList = ( function() {
           <label for="text-url">URL:</label>
           <input type="url" value='https://' name="url" id="text-url">
           <label for="text-description">Description:</label>
-          <input type="text" name="description" id="text-description">
+          <input type="text" name="desc" id="text-description">
           <label for="text-rating">Rating:</label>
           <input type="number" name="rating" id="text-rating" min='1' max='5'>
           <button type='submit' value='Submit' id='submit-bookmark-form-data'>Submit</button>
@@ -53,8 +53,9 @@ const bookmarkList = ( function() {
       event.preventDefault();
       console.log('I\'m running!');
       let formElement = $('#js-bookmark-form')[0];
-      serializeJson(formElement);
-      api.createBookmark(formElement)
+      const jsonObject = serializeJson(formElement);
+      console.log(jsonObject);
+      api.createBookmark(jsonObject)
         .then(newBookmark => {
           store.addBookmark(newBookmark);
           generateBookmarkOnPage();
@@ -68,12 +69,13 @@ const bookmarkList = ( function() {
     return `
       <li class='js-bookmark-element'>
         <div>
-          <span class='bookmarkTitle'>${bookmark.name} |</span>
+          <span class='bookmarkTitle'>${bookmark.title} |</span>
           <span class='bookmarkRating'>Rating: ${bookmark.rating}</span>
         </div>
         <div>
-          <span class='bookmarkDescription'>Description: ${bookmark.description}</span>
-          <input type='button' onclick="window.open('${bookmark.url}','_blank','resizable=yes'>
+          <span class='bookmarkDescription'>Description: ${bookmark.desc}</span>
+          <input type='button' onclick="window.open('${bookmark.url}','_blank','resizable=yes'" value='Visit Site'>
+          <button type='button' id='deleteBookmark'>Delete</button>
         </div>
       </li>`;
   }
@@ -95,7 +97,12 @@ const bookmarkList = ( function() {
   function filterBookmarksWasClicked() {}
 
   //will handle deletion of bookmark if delete button clicked
-  function handleBookmarkDelete() {}
+  function handleBookmarkDelete() {
+    $('.js-bookmark-list').on('click', '#deleteBookmark', function(event) {
+      event.preventDefault();
+      console.log('delete button works!');
+    });
+  }
 
   //will handle if expanded view is clicked on bookmark
   function handleExpandedView() {}
@@ -105,6 +112,7 @@ const bookmarkList = ( function() {
     console.log('renderPage ran');
     addBookmarkClicked();
     watchAddBookmarkForm();
+    handleBookmarkDelete();
   }
 
   return {
