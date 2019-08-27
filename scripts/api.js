@@ -22,7 +22,7 @@ const api = (function() {
   };
 
   const getBoomarks = function() {
-    return handleAPIFetch(`${BASE_URL}`);
+    return handleAPIFetch(BASE_URL);
   };
 
   const createBookmark = function(bookmarkOject) {

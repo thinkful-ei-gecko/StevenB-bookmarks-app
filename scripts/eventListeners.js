@@ -67,14 +67,14 @@ const bookmarkList = ( function() {
   //will create how the bookmark will appear on the DOM
   function generateBookmarkElement(bookmark) {
     return `
-      <li class='js-bookmark-element'>
+      <li class='js-bookmark-element' data-bookmark-id='${bookmark.id}'>
         <div>
           <span class='bookmarkTitle'>${bookmark.title} |</span>
           <span class='bookmarkRating'>Rating: ${bookmark.rating}</span>
         </div>
         <div>
           <span class='bookmarkDescription'>Description: ${bookmark.desc}</span>
-          <input type='button' onclick="window.open('${bookmark.url}','_blank','resizable=yes'" value='Visit Site'>
+          <input type='button' onclick="window.open('${bookmark.url}'),'_blank','resizable=yes'" value='Visit Site'>
           <button type='button' id='deleteBookmark'>Delete</button>
         </div>
       </li>`;
@@ -96,11 +96,24 @@ const bookmarkList = ( function() {
   //filter based on 1-5 rating system
   function filterBookmarksWasClicked() {}
 
+  function getBookmarkId(bookmark) {
+    return $(bookmark)
+      .closest('.js-bookmark-element')
+      .data('bookmark-id');
+  }
+
   //will handle deletion of bookmark if delete button clicked
   function handleBookmarkDelete() {
     $('.js-bookmark-list').on('click', '#deleteBookmark', function(event) {
       event.preventDefault();
       console.log('delete button works!');
+      const id = getBookmarkId(event.currentTarget);
+      console.log(id);
+      api.deleteBookmark(id)
+        .then(() => {
+          store.findAndDelete(id);
+          generateBookmarkOnPage();
+        });
     });
   }
 
