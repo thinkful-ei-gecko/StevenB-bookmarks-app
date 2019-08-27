@@ -11,16 +11,18 @@ const bookmarkList = ( function() {
       <form action='submit' id="js-bookmark-form">
         <h2>Please enter in a new bookmark!</h2>
         <div>
-          <label for="name">Name:</label>
-          <input type="text" name="title" id="text-name">
-          <label for="url">URL:</label>
-          <input type="url" value='https://' name="url" id="text-url">
-          <label for="desc">Description:</label>
-          <input type="text" name="desc" id="text-description">
-          <label for="rating">Rating:</label>
-          <input type="number" name="rating" id="text-rating" min='1' max='5' required>
-          <button type='submit' value='Submit' id='submit-bookmark-form-data'>Submit</button>
-          <button type='submit' value='Cancel' id='cancel-bookmark-form-data'>Cancel</button>
+          <label for="text-name"></label>
+          <input type="text" name="title" id="text-name" placeholder='title'>
+          <label for="text-url"></label>
+          <input type="url" value='https://' name="url" id="text-url" placeholder='https://'>
+          <label for="text-description"></label>
+          <input type="text" name="desc" id="text-description" placeholder='description... (optional)'>
+          <label for="text-rating"></label>
+          <input type="number" name="rating" id="text-rating" min='1' max='5' placeholder='rating 1-5' required>
+          <div class='addBookmarkForm-buttons'>
+            <button type='submit' value='Submit' id='submit-bookmark-form-data'>Submit</button>
+            <button type='submit' value='Cancel' id='cancel-bookmark-form-data'>Cancel</button>
+          </div>
         </div>
       </form>
     `);
@@ -32,7 +34,7 @@ const bookmarkList = ( function() {
     $('#bookmark-form-section').html(`
     <button type="submit" value="Add Bookmark!" class='addBookmark-button'>Add Bookmark!</button>
     <select type="dropdown" name="filterByRating" class="js-filter-rating">
-      <option selected=''>Filter By:</option>
+      <option selected='true' value="1">Filter By:</option>
       <option value="1">1</option>
       <option value="2">2</option>
       <option value="3">3</option>
