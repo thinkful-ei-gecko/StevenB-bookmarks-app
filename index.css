@@ -133,19 +133,19 @@ form>label {
 }
 
 #text-name, #text-url {
-  width: 30%;
+  width: 40%;
   display: inline-block;
   color: black;
 }
 
 #text-description {
-  width: 55%;
+  width: 60%;
   margin: 5px 0px 5px 0px;
   color: black;
 }
 
 #text-rating {
-  width: 25%;
+  width: 20%;
   color: black;
 }
 
@@ -153,4 +153,51 @@ form>label {
   display: block;
   border: 1px white solid;
   padding: 5px 0px 5px 0px;
+}
+
+/* tablet screen */
+@media screen and (min-width: 768px){
+  .addBookmark-button {
+    display: inline;
+    margin-right: 15px;
+  }
+}
+
+/* computer screen  */
+@media screen and (min-width: 1024px){
+  h1 {
+    height: 10%;
+    padding: 2%;
+    margin: 0px;
+    margin-bottom: 2%;
+    font-size: 24px;
+  }
+
+  #js-bookmark-form {
+    width: 50%;
+    margin: auto;
+  }
+
+  .unexpanded-div {
+    height: 40px;
+    margin: 0px 30% 15px 30%;
+    padding-top: 5px;
+  }
+
+  .expanded-div {
+    height: 100px;
+   margin: -15px 30% 15px 30%;
+    background-color: #414141;
+  }
+
+  #text-description {
+    width: 65%;
+    margin: 5px 0px 5px 0px;
+    color: black;
+  }
+  
+  #text-rating {
+    width: 15%;
+    color: black;
+  }
 }

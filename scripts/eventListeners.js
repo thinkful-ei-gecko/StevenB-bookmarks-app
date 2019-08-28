@@ -12,7 +12,7 @@ const bookmarkList = ( function() {
         <h2>Please enter in a new bookmark!</h2>
         <div>
           <label for="text-name"></label>
-          <input type="text" name="title" id="text-name" placeholder='title'>
+          <input type="text" name="title" id="text-name" placeholder='title' required>
           <label for="text-url"></label>
           <input type="url" value='https://' name="url" id="text-url" placeholder='https://'>
           <label for="text-description"></label>
