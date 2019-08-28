@@ -37,7 +37,6 @@ const store = (function() {
 
   return {
     list:[],
-    adding: false,
     searchNumber: null,
 
     addBookmark,
