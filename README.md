@@ -26,6 +26,7 @@
 
 
 ##Technical Requirements
+
 -Use fetch for AJAX calls and jQuery for DOM manipulation
 
 -Use namespacing to adhere to good architecture practices
