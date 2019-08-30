@@ -133,7 +133,7 @@ const bookmarkList = ( function() {
   //will filter bookmarks currently in DOM
   //filter based on 1-5 rating system
   function filterBookmarksWasClicked() {
-    $('#bookmark-form-section').on('mouseup', '.js-filter-rating', function(event) {
+    $('#bookmark-form-section').on('click', '.js-filter-rating', function(event) {
       let val = $(event.currentTarget).val();
       store.searchNumber = val;
       renderPage();
