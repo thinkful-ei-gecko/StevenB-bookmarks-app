@@ -14,7 +14,7 @@ const bookmarkList = ( function() {
           <label for="text-name"></label>
           <input type="text" name="title" id="text-name" placeholder='title' required>
           <label for="text-url"></label>
-          <input type="url" value='https://' name="url" id="text-url" placeholder='https://'>
+          <input type="url" value='https://' name="url" id="text-url" pattern="https://.*\..com" placeholder='https://'>
           <label for="text-description"></label>
           <input type="text" name="desc" id="text-description" placeholder='description... (optional)'>
           <label for="text-rating"></label>
@@ -89,7 +89,7 @@ const bookmarkList = ( function() {
             <button type='button' id='expandView'>Expand</button>
           </div>
           <div class='expanded-div'>
-            <span class='bookmarkDescription'>Description: ${bookmark.desc}</span>
+            <span class='bookmarkDescription'>Description: ${bookmark.desc} | ${bookmark.url}</span>
             <div class='expanded-buttons'>
               <button type='button' class='visitSite' onclick="window.open('${bookmark.url}'),'_blank','resizable=yes'">Visit Site</button>
               <button type='button' id='deleteBookmark'>Delete</button>
